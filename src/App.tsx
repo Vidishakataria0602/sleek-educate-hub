@@ -13,6 +13,15 @@ import Achievements from "./pages/Achievements";
 import Students from "./pages/Students";
 import StudentDetail from "./pages/StudentDetail";
 import NotFound from "./pages/NotFound";
+import Volunteer from "./pages/Volunteer";
+import Donate from "./pages/Donate";
+import DonationSuccess from "./pages/DonationSuccess";
+import RegistrationSuccess from "./pages/RegistrationSuccess";
+import AboutUs from "./pages/AboutUs";
+import Resources from "./pages/Resources";
+import ClassSelection from "./pages/ClassSelection";
+import SubjectSelection from "./pages/SubjectSelection";
+import UserProfile from "./pages/UserProfile";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +40,15 @@ const App = () => (
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/students" element={<Students />} />
           <Route path="/student/:id" element={<StudentDetail />} />
+          <Route path="/volunteer" element={<Volunteer />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/donation-success" element={<DonationSuccess />} />
+          <Route path="/registration-success" element={<RegistrationSuccess />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/class-selection" element={<ClassSelection />} />
+          <Route path="/subject-selection" element={<SubjectSelection />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
