@@ -1,17 +1,44 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from "@/components/ui/button";
-import { BookOpen, BookOpen as BookIcon } from 'lucide-react';
+import { BookOpen, GraduationCap, ArrowLeft } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const Resources = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [selectedBoard, setSelectedBoard] = useState<string | null>(null);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+  };
+
+  const handleBoardSelect = (board: string) => {
+    setSelectedBoard(board);
+  };
+
+  const handleNextClick = () => {
+    if (selectedBoard) {
+      navigate('/class-selection', { state: { board: selectedBoard } });
+    } else {
+      toast({
+        title: "Selection Required",
+        description: "Please select an educational board to continue",
+        variant: "destructive"
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isAuthenticated={true} username="Sarah" />
+      <Navbar isAuthenticated={true} username="User" />
       
       <div className="flex-grow flex items-center justify-center bg-purple-600 p-6">
         <div className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">
@@ -26,11 +53,15 @@ const Resources = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* CBSE Board */}
               <button
-                onClick={() => navigate('/class-selection', { state: { board: 'CBSE' } })}
-                className="bg-orange-500 text-white rounded-lg p-6 hover:bg-orange-600 transition flex flex-col items-center"
+                onClick={() => handleBoardSelect('CBSE')}
+                className={`${
+                  selectedBoard === 'CBSE' 
+                    ? 'ring-4 ring-orange-300' 
+                    : ''
+                } bg-orange-500 text-white rounded-lg p-6 hover:bg-orange-600 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
-                  <BookIcon className="h-8 w-8 text-orange-500" />
+                  <GraduationCap className="h-8 w-8 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-lg mb-1">CBSE Board</h3>
                 <p className="text-sm text-orange-100 text-center">Central Board of Secondary Education</p>
@@ -38,8 +69,12 @@ const Resources = () => {
               
               {/* State Board */}
               <button
-                onClick={() => navigate('/class-selection', { state: { board: 'Maharashtra' } })}
-                className="bg-yellow-400 text-purple-900 rounded-lg p-6 hover:bg-yellow-500 transition flex flex-col items-center"
+                onClick={() => handleBoardSelect('Maharashtra')}
+                className={`${
+                  selectedBoard === 'Maharashtra' 
+                    ? 'ring-4 ring-yellow-300' 
+                    : ''
+                } bg-yellow-400 text-purple-900 rounded-lg p-6 hover:bg-yellow-500 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
                   <BookOpen className="h-8 w-8 text-yellow-500" />
@@ -52,14 +87,16 @@ const Resources = () => {
             <div className="mt-8 flex justify-between">
               <Button
                 variant="outline"
-                className="px-6 text-purple-700 border-purple-300"
+                className="px-6 text-purple-700 border-purple-300 hover:bg-purple-50"
                 onClick={() => navigate('/dashboard')}
+                startIcon={<ArrowLeft className="mr-2 h-4 w-4" />}
               >
                 Back
               </Button>
               <Button
-                disabled
-                className="px-6 bg-purple-700 opacity-50 cursor-not-allowed"
+                className={`px-6 bg-purple-700 hover:bg-purple-800 transition-colors ${!selectedBoard ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={handleNextClick}
+                disabled={!selectedBoard}
               >
                 Next
               </Button>
@@ -68,7 +105,7 @@ const Resources = () => {
         </div>
       </div>
       
-      <Footer />
+      <Footer onSubscribe={handleSubscribe} />
     </div>
   );
 };

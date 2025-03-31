@@ -5,9 +5,19 @@ import { Button } from "@/components/ui/button";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BookOpen, Users, FileText } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -25,14 +35,14 @@ const Index = () => {
             </p>
             <div className="flex space-x-4">
               <Button 
-                className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-opacity-90 px-8 py-6 rounded-full font-semibold text-lg"
+                className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
               </Button>
               <Button 
                 variant="outline" 
-                className="text-white border-white hover:bg-white hover:text-gyanmarg-purple px-8 py-6 rounded-full font-semibold text-lg"
+                className="text-white border-white hover:bg-white/20 hover:border-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
                 onClick={() => navigate('/about')}
               >
                 Learn More
@@ -42,7 +52,7 @@ const Index = () => {
           <div className="md:w-1/2 flex justify-center">
             <img 
               src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&h=450" 
-              alt="Education Hero" 
+              alt="Education Hero"
               className="rounded-lg shadow-xl animate-fade-in"
             />
           </div>
@@ -120,7 +130,7 @@ const Index = () => {
         </div>
       </section>
       
-      <Footer />
+      <Footer onSubscribe={handleSubscribe} />
     </div>
   );
 };

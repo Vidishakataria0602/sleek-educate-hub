@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -22,9 +22,18 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
   const navigate = useNavigate();
   const { toast } = useToast();
   const location = useLocation();
+  const [localAuth, setLocalAuth] = useState(isAuthenticated);
+  
+  // Check session storage for authentication status
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('user');
+    if (storedUser) {
+      setLocalAuth(true);
+    }
+  }, []);
 
   const handleNavItemClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    if (!isAuthenticated && path !== '/') {
+    if (!localAuth && path !== '/') {
       e.preventDefault();
       setIsAlertOpen(true);
     }
@@ -35,7 +44,9 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
   };
 
   const handleLogout = () => {
-    // In a real app, handle logout logic here
+    // Clear session storage on logout
+    sessionStorage.removeItem('user');
+    setLocalAuth(false);
     navigate('/');
     toast({
       title: "Logged out successfully",
@@ -44,7 +55,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
   };
 
   const handleSwitchAccount = () => {
-    // In a real app, handle account switching logic here
     toast({
       title: "Switch Account",
       description: "Account switching feature would be implemented here",
@@ -62,29 +72,37 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
         <Link to="/" className={`hover:text-gyanmarg-gold transition ${location.pathname === '/' ? 'text-gyanmarg-gold' : ''}`}>
           Home
         </Link>
+        {localAuth && (
+          <Link 
+            to="/dashboard" 
+            className={`hover:text-gyanmarg-gold transition ${location.pathname === '/dashboard' ? 'text-gyanmarg-gold' : ''}`}
+          >
+            Dashboard
+          </Link>
+        )}
         <Link 
-          to={isAuthenticated ? "/about" : "#"} 
+          to={localAuth ? "/about" : "#"} 
           onClick={(e) => handleNavItemClick(e, "/about")} 
           className={`hover:text-gyanmarg-gold transition ${location.pathname === '/about' ? 'text-gyanmarg-gold' : ''}`}
         >
           About Us
         </Link>
         <Link 
-          to={isAuthenticated ? "/volunteer" : "#"} 
+          to={localAuth ? "/volunteer" : "#"} 
           onClick={(e) => handleNavItemClick(e, "/volunteer")} 
           className={`hover:text-gyanmarg-gold transition ${location.pathname === '/volunteer' ? 'text-gyanmarg-gold' : ''}`}
         >
           Volunteer
         </Link>
         <Link 
-          to={isAuthenticated ? "/donate" : "#"} 
+          to={localAuth ? "/donate" : "#"} 
           onClick={(e) => handleNavItemClick(e, "/donate")} 
           className={`hover:text-gyanmarg-gold transition ${location.pathname === '/donate' ? 'text-gyanmarg-gold' : ''}`}
         >
           Donate
         </Link>
         <Link 
-          to={isAuthenticated ? "/resources" : "#"} 
+          to={localAuth ? "/resources" : "#"} 
           onClick={(e) => handleNavItemClick(e, "/resources")} 
           className={`hover:text-gyanmarg-gold transition ${location.pathname === '/resources' ? 'text-gyanmarg-gold' : ''}`}
         >
@@ -92,19 +110,19 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
         </Link>
       </div>
       
-      {isAuthenticated ? (
+      {localAuth || isAuthenticated ? (
         <div className="flex items-center space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center space-x-2 cursor-pointer rounded-full p-1 hover:bg-opacity-20 hover:bg-white transition">
-                <span className="text-gyanmarg-gold font-medium">Welcome, {username}</span>
+                <span className="text-gyanmarg-gold font-medium">Welcome, {username || JSON.parse(sessionStorage.getItem('user') || '{"username": "User"}').username}</span>
                 <div className="h-8 w-8 bg-white rounded-full overflow-hidden flex items-center justify-center">
                   <User className="h-6 w-6 text-gyanmarg-purple" />
                 </div>
                 <ChevronDown className="h-4 w-4 text-gyanmarg-gold" />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48">
+            <DropdownMenuContent className="w-48 bg-white">
               <DropdownMenuItem onClick={handleProfileClick} className="cursor-pointer">
                 Profile
               </DropdownMenuItem>
@@ -116,25 +134,18 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button 
-            variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-gyanmarg-purple"
-            onClick={() => navigate('/dashboard')}
-          >
-            Dashboard
-          </Button>
         </div>
       ) : (
         <div className="space-x-3">
           <Button 
             variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-gyanmarg-purple"
+            className="border-white text-white hover:bg-white/20 hover:text-white transition-colors"
             onClick={() => navigate('/signin')}
           >
             Sign In
           </Button>
           <Button 
-            className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-opacity-90"
+            className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-300 transition-colors"
             onClick={() => navigate('/signup')}
           >
             Sign Up

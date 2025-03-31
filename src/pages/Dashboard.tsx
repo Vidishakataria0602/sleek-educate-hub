@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Calendar, Award, Users, Clock, Book } from 'lucide-react';
+import { Calendar, Award, Users, Clock, Book, AlertCircle } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 interface User {
   username: string;
@@ -13,9 +14,19 @@ interface User {
   email: string;
 }
 
+interface Session {
+  id: number;
+  subject: string;
+  grade: string;
+  time: string;
+  icon: string;
+}
+
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [sessions, setSessions] = useState<Session[]>([]);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     // Check if user is logged in
@@ -26,7 +37,27 @@ const Dashboard = () => {
     }
     
     setUser(JSON.parse(storedUser));
+
+    // This would be a fetch call in a real application
+    // For now, we'll leave it empty as per the requirement
+    setSessions([]);
   }, [navigate]);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+  };
+
+  const handleViewSchedule = () => {
+    // Scroll to upcoming sessions
+    const upcomingSessions = document.getElementById('upcoming-sessions');
+    if (upcomingSessions) {
+      upcomingSessions.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   if (!user) return null;
 
@@ -46,15 +77,15 @@ const Dashboard = () => {
           
           <div className="flex flex-col md:flex-row justify-center gap-4 animate-fade-in">
             <Button 
-              className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-opacity-90 text-lg py-6 px-8"
+              className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-300 text-lg py-6 px-8 transition-colors"
               onClick={() => navigate('/new-session')}
             >
               Resume Teaching
             </Button>
             <Button 
               variant="outline"
-              className="text-white border-white hover:bg-white hover:text-gyanmarg-purple text-lg py-6 px-8"
-              onClick={() => navigate('/schedule')}
+              className="text-white border-white hover:bg-white/20 hover:border-yellow-300 text-lg py-6 px-8 transition-colors"
+              onClick={handleViewSchedule}
             >
               View Schedule
             </Button>
@@ -68,11 +99,11 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold mb-6 text-gyanmarg-purple">Quick Actions</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="hover:shadow-lg transition">
+            <Card className="hover:shadow-lg transition border border-purple-100">
               <CardContent className="flex flex-col items-center p-6">
                 <Calendar className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple w-full"
+                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
                   onClick={() => navigate('/new-session')}
                 >
                   Create New Session
@@ -80,11 +111,11 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card className="hover:shadow-lg transition">
+            <Card className="hover:shadow-lg transition border border-purple-100">
               <CardContent className="flex flex-col items-center p-6">
                 <Award className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple w-full"
+                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
                   onClick={() => navigate('/achievements')}
                 >
                   View Achievements
@@ -92,11 +123,11 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card className="hover:shadow-lg transition">
+            <Card className="hover:shadow-lg transition border border-purple-100">
               <CardContent className="flex flex-col items-center p-6">
                 <Users className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple w-full"
+                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
                   onClick={() => navigate('/students')}
                 >
                   Student Profiles
@@ -113,7 +144,7 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold mb-6 text-gyanmarg-purple">Your Impact Dashboard</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card className="hover:shadow-lg transition bg-white">
+            <Card className="hover:shadow-lg transition bg-white border border-purple-100">
               <CardHeader className="pb-2">
                 <CardTitle className="text-4xl font-bold text-gyanmarg-purple text-center">100+</CardTitle>
               </CardHeader>
@@ -122,7 +153,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card className="hover:shadow-lg transition bg-white">
+            <Card className="hover:shadow-lg transition bg-white border border-purple-100">
               <CardHeader className="pb-2">
                 <CardTitle className="text-4xl font-bold text-gyanmarg-purple text-center">1000+</CardTitle>
               </CardHeader>
@@ -131,7 +162,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card className="hover:shadow-lg transition bg-white">
+            <Card className="hover:shadow-lg transition bg-white border border-purple-100">
               <CardHeader className="pb-2">
                 <CardTitle className="text-4xl font-bold text-gyanmarg-purple text-center">4.9</CardTitle>
               </CardHeader>
@@ -140,7 +171,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
             
-            <Card className="hover:shadow-lg transition bg-white">
+            <Card className="hover:shadow-lg transition bg-white border border-purple-100">
               <CardHeader className="pb-2">
                 <CardTitle className="text-4xl font-bold text-gyanmarg-purple text-center">12</CardTitle>
               </CardHeader>
@@ -153,96 +184,57 @@ const Dashboard = () => {
       </section>
       
       {/* Upcoming Sessions */}
-      <section className="py-8 px-4 bg-white">
+      <section id="upcoming-sessions" className="py-8 px-4 bg-white">
         <div className="container mx-auto max-w-5xl">
           <h2 className="text-2xl font-bold mb-6 text-gyanmarg-purple">Upcoming Sessions</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Session Card 1 */}
-            <Card className="border border-gray-200 hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full bg-mint-card flex items-center justify-center mr-4">
-                    <span className="font-bold text-gyanmarg-purple">M</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Mathematics</h3>
-                    <p className="text-sm text-gray-600">Grade 8</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center mb-4 text-sm text-gray-600">
-                  <Clock className="h-4 w-4 mr-2" />
-                  <span>Today, 2:00 PM - 3:30 PM</span>
-                </div>
-                
-                <Button 
-                  className="w-full bg-gyanmarg-purple"
-                  onClick={() => navigate('/session/1')}
-                >
-                  Join Session
-                </Button>
-              </CardContent>
-            </Card>
-            
-            {/* Session Card 2 */}
-            <Card className="border border-gray-200 hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full bg-skyblue-card flex items-center justify-center mr-4">
-                    <span className="font-bold text-gyanmarg-purple">S</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Science</h3>
-                    <p className="text-sm text-gray-600">Grade 9</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center mb-4 text-sm text-gray-600">
-                  <Clock className="h-4 w-4 mr-2" />
-                  <span>Tomorrow, 2:00 PM - 4:30 PM</span>
-                </div>
-                
-                <Button 
-                  className="w-full bg-gyanmarg-purple"
-                  onClick={() => navigate('/session/2')}
-                >
-                  Join Session
-                </Button>
-              </CardContent>
-            </Card>
-            
-            {/* Session Card 3 */}
-            <Card className="border border-gray-200 hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full bg-coral-card flex items-center justify-center mr-4">
-                    <span className="font-bold text-gyanmarg-purple">E</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold">English</h3>
-                    <p className="text-sm text-gray-600">Grade 7</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center mb-4 text-sm text-gray-600">
-                  <Clock className="h-4 w-4 mr-2" />
-                  <span>Thursday, 1:00 PM - 2:30 PM</span>
-                </div>
-                
-                <Button 
-                  className="w-full bg-gyanmarg-purple"
-                  onClick={() => navigate('/session/3')}
-                >
-                  Join Session
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          {sessions.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {sessions.map(session => (
+                <Card key={session.id} className="border border-gray-200 hover:shadow-lg transition">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <div className={`w-10 h-10 rounded-full bg-${session.icon}-card flex items-center justify-center mr-4`}>
+                        <span className="font-bold text-gyanmarg-purple">{session.subject[0]}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-bold">{session.subject}</h3>
+                        <p className="text-sm text-gray-600">Grade {session.grade}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center mb-4 text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span>{session.time}</span>
+                    </div>
+                    
+                    <Button 
+                      className="w-full bg-gyanmarg-purple hover:bg-purple-700 transition-colors"
+                      onClick={() => navigate(`/session/${session.id}`)}
+                    >
+                      Join Session
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+              <AlertCircle className="h-12 w-12 mx-auto mb-4 text-yellow-500" />
+              <h3 className="text-xl font-semibold mb-2">No Upcoming Sessions</h3>
+              <p className="text-gray-600 mb-6">You haven't created any teaching sessions yet.</p>
+              <Button 
+                className="bg-gyanmarg-purple hover:bg-purple-700 transition-colors"
+                onClick={() => navigate('/new-session')}
+              >
+                Create Your First Session
+              </Button>
+            </div>
+          )}
         </div>
       </section>
       
-      <Footer />
+      <Footer onSubscribe={handleSubscribe} />
     </div>
   );
 };

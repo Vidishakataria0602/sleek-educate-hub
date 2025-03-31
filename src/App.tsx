@@ -22,6 +22,8 @@ import Resources from "./pages/Resources";
 import ClassSelection from "./pages/ClassSelection";
 import SubjectSelection from "./pages/SubjectSelection";
 import UserProfile from "./pages/UserProfile";
+import DonationHistory from "./pages/DonationHistory";
+import ContactSupport from "./pages/ContactSupport";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/donation-success" element={<DonationSuccess />} />
+          <Route path="/donation-history" element={<DonationHistory />} />
+          <Route path="/contact-support" element={<ContactSupport />} />
           <Route path="/registration-success" element={<RegistrationSuccess />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/resources" element={<Resources />} />

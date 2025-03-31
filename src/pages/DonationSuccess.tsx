@@ -1,11 +1,38 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, PieChart, Users } from 'lucide-react';
 
+interface DonationData {
+  amount: string;
+  name: string;
+  email: string;
+  message?: string;
+  paymentMethod: string;
+}
+
 const DonationSuccess = () => {
   const navigate = useNavigate();
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('donationDetails');
+    if (storedData) {
+      setDonationData(JSON.parse(storedData));
+    }
+  }, []);
+
+  const getPaymentMethodText = (code: string) => {
+    const map: {[key: string]: string} = {
+      'card': 'Credit/Debit Card',
+      'net_banking': 'Net Banking',
+      'upi': 'UPI',
+      'gpay': 'Google Pay',
+      'phonepe': 'PhonePe'
+    };
+    return map[code] || code;
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-purple-600 py-12 px-4">
@@ -17,7 +44,7 @@ const DonationSuccess = () => {
           
           <h1 className="text-3xl font-bold text-purple-700 mb-1">Thank You!</h1>
           <p className="text-gray-700 mb-6">
-            Your donation of $50 has been received.<br />
+            Your donation of ₹{donationData?.amount || '0'} has been received.<br />
             Your generosity will help transform student lives through education.
           </p>
           
@@ -59,23 +86,28 @@ const DonationSuccess = () => {
           
           <div className="space-y-3">
             <Button 
-              className="w-full bg-purple-700 hover:bg-purple-800 text-white" 
-              onClick={() => navigate('/')}
+              className="w-full bg-purple-700 hover:bg-purple-800 text-white transition-colors" 
+              onClick={() => navigate('/dashboard')}
             >
-              Return to Homepage
+              Return to Dashboard
             </Button>
             
             <Button 
               variant="outline" 
-              className="w-full border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+              className="w-full border-yellow-500 text-yellow-600 hover:bg-yellow-50 transition-colors"
+              onClick={() => navigate('/donation-history')}
             >
               View Your Donation History
             </Button>
+            
+            <Button 
+              variant="outline" 
+              className="w-full border-purple-300 text-purple-700 hover:bg-purple-50 transition-colors"
+              onClick={() => navigate('/contact-support')}
+            >
+              Contact Support Team
+            </Button>
           </div>
-          
-          <p className="mt-6 text-sm text-gray-600">
-            Need help? <a href="#" className="text-purple-600 hover:underline">Contact our support team</a>
-          </p>
         </div>
       </div>
     </div>

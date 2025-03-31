@@ -6,15 +6,24 @@ import Footer from '@/components/Footer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Book, BadgeDollarSign } from 'lucide-react';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 
 const Donate = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [amount, setAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   const handlePresetAmount = (value: string) => {
     setAmount(value);
@@ -26,10 +35,45 @@ const Donate = () => {
     setAmount('');
   };
 
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const donationAmount = amount || customAmount;
-    // In a real app, process the payment here
+    
+    if (!donationAmount) {
+      toast({
+        title: "Amount required",
+        description: "Please select or enter a donation amount",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!paymentMethod) {
+      toast({
+        title: "Payment method required",
+        description: "Please select a payment method",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Store donation details for the success page
+    sessionStorage.setItem('donationDetails', JSON.stringify({
+      amount: donationAmount,
+      name: fullName,
+      email: email,
+      message: message,
+      paymentMethod: paymentMethod
+    }));
+    
     navigate('/donation-success');
   };
 
@@ -47,7 +91,7 @@ const Donate = () => {
             Your generosity can transform a student's educational journey
           </p>
           <Button 
-            className="bg-yellow-400 hover:bg-yellow-500 text-purple-800 font-semibold px-6 py-3 rounded-full text-lg"
+            className="bg-yellow-400 hover:bg-yellow-500 text-purple-800 font-semibold px-6 py-3 rounded-full text-lg transition-colors"
             onClick={() => {
               const donationForm = document.getElementById('donation-form');
               donationForm?.scrollIntoView({ behavior: 'smooth' });
@@ -67,60 +111,34 @@ const Donate = () => {
             {/* Card 1 */}
             <div className="bg-orange-500 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <BadgeDollarSign className="w-8 h-8 text-orange-500" />
+                <img src="/lovable-uploads/b9adb92b-96cf-4756-b590-3bb4abe409fb.png" alt="Donate Money" className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-white">Donate Money</h3>
               <p className="text-center text-white mb-4">
                 Support our programs and help us reach more students
               </p>
-              <div className="text-center">
-                <Button 
-                  className="bg-white text-orange-500 hover:bg-gray-100"
-                  onClick={() => {
-                    const donationForm = document.getElementById('donation-form');
-                    donationForm?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  Donate Now
-                </Button>
-              </div>
             </div>
             
             {/* Card 2 */}
             <div className="bg-yellow-400 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Book className="w-8 h-8 text-yellow-500" />
+                <BookIcon className="w-8 h-8 text-yellow-500" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-purple-800">Donate Books</h3>
               <p className="text-center text-purple-800 mb-4">
                 Share knowledge through educational materials
               </p>
-              <div className="text-center">
-                <Button
-                  className="bg-white text-yellow-500 hover:bg-gray-100"
-                >
-                  Learn More
-                </Button>
-              </div>
             </div>
             
             {/* Card 3 */}
             <div className="bg-purple-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-purple-700" />
+                <ClockIcon className="w-8 h-8 text-purple-700" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-white">Volunteer Time</h3>
               <p className="text-center text-white mb-4">
                 Dedicate your time to teaching and mentoring
               </p>
-              <div className="text-center">
-                <Button
-                  className="bg-white text-purple-700 hover:bg-gray-100"
-                  onClick={() => navigate('/volunteer')}
-                >
-                  Sign Up
-                </Button>
-              </div>
             </div>
           </div>
         </div>
@@ -133,36 +151,36 @@ const Donate = () => {
           
           <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-md">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Select Amount</label>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Select Amount*</label>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 <Button
                   type="button"
-                  variant={amount === '10' ? 'default' : 'outline'}
-                  className={amount === '10' ? 'bg-purple-700' : ''}
-                  onClick={() => handlePresetAmount('10')}
+                  variant={amount === '500' ? 'default' : 'outline'}
+                  className={amount === '500' ? 'bg-purple-700' : ''}
+                  onClick={() => handlePresetAmount('500')}
                 >
-                  $10
+                  ₹500
                 </Button>
                 <Button
                   type="button"
-                  variant={amount === '25' ? 'default' : 'outline'}
-                  className={amount === '25' ? 'bg-purple-700' : ''}
-                  onClick={() => handlePresetAmount('25')}
+                  variant={amount === '1000' ? 'default' : 'outline'}
+                  className={amount === '1000' ? 'bg-purple-700' : ''}
+                  onClick={() => handlePresetAmount('1000')}
                 >
-                  $25
+                  ₹1000
                 </Button>
                 <Button
                   type="button"
-                  variant={amount === '50' ? 'default' : 'outline'}
-                  className={amount === '50' ? 'bg-purple-700' : ''}
-                  onClick={() => handlePresetAmount('50')}
+                  variant={amount === '2000' ? 'default' : 'outline'}
+                  className={amount === '2000' ? 'bg-purple-700' : ''}
+                  onClick={() => handlePresetAmount('2000')}
                 >
-                  $50
+                  ₹2000
                 </Button>
               </div>
               <div>
                 <Input
-                  placeholder="Enter custom amount"
+                  placeholder="Enter custom amount in ₹"
                   value={customAmount}
                   onChange={handleCustomAmountChange}
                   className={customAmount ? 'border-purple-700 ring-purple-700' : ''}
@@ -171,7 +189,7 @@ const Donate = () => {
             </div>
             
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
               <Input
                 id="fullName"
                 value={fullName}
@@ -182,7 +200,7 @@ const Donate = () => {
             </div>
             
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
               <Input
                 id="email"
                 type="email"
@@ -191,6 +209,22 @@ const Donate = () => {
                 placeholder="Enter your email"
                 required
               />
+            </div>
+            
+            <div>
+              <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700 mb-1">Payment Method*</label>
+              <Select onValueChange={setPaymentMethod} required>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select payment method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="card">Credit/Debit Card</SelectItem>
+                  <SelectItem value="net_banking">Net Banking</SelectItem>
+                  <SelectItem value="upi">UPI</SelectItem>
+                  <SelectItem value="gpay">Google Pay</SelectItem>
+                  <SelectItem value="phonepe">PhonePe</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             <div>
@@ -205,17 +239,31 @@ const Donate = () => {
             
             <Button 
               type="submit" 
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 transition-colors"
             >
               Complete Donation
             </Button>
+            
+            <div className="flex justify-center">
+              <Button 
+                type="button" 
+                variant="outline"
+                className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                onClick={() => navigate('/dashboard')}
+              >
+                Back to Dashboard
+              </Button>
+            </div>
           </form>
         </div>
       </section>
       
-      <Footer />
+      <Footer onSubscribe={handleSubscribe} />
     </div>
   );
 };
+
+// Import icons at the bottom to avoid issues with imports
+import { Book as BookIcon, Clock as ClockIcon } from 'lucide-react';
 
 export default Donate;

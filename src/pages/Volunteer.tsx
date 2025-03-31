@@ -7,6 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Volunteer = () => {
   const navigate = useNavigate();
@@ -23,9 +30,22 @@ const Volunteer = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleAvailabilityChange = (value: string) => {
+    setFormData(prev => ({ ...prev, availability: value }));
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, submit the form data to a server
+    // Store form data for registration success page
+    sessionStorage.setItem('volunteerData', JSON.stringify(formData));
     navigate('/registration-success');
   };
 
@@ -43,7 +63,7 @@ const Volunteer = () => {
             Join our community of passionate educators making a difference in students' lives
           </p>
           <Button 
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-6 rounded-full text-lg"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-6 rounded-full text-lg transition-colors"
             onClick={() => {
               const formSection = document.getElementById('join-mission');
               formSection?.scrollIntoView({ behavior: 'smooth' });
@@ -141,27 +161,44 @@ const Volunteer = () => {
             
             <div>
               <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-1">Availability</label>
-              <Input
-                id="availability"
-                name="availability"
-                value={formData.availability}
-                onChange={handleChange}
-                placeholder="When are you available?"
-                required
-              />
+              <Select onValueChange={handleAvailabilityChange} required>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select your availability" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="weekday_mornings">Weekday Mornings</SelectItem>
+                  <SelectItem value="weekday_afternoons">Weekday Afternoons</SelectItem>
+                  <SelectItem value="weekday_evenings">Weekday Evenings</SelectItem>
+                  <SelectItem value="weekend_mornings">Weekend Mornings</SelectItem>
+                  <SelectItem value="weekend_afternoons">Weekend Afternoons</SelectItem>
+                  <SelectItem value="weekend_evenings">Weekend Evenings</SelectItem>
+                  <SelectItem value="flexible">Flexible Schedule</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             <Button 
               type="submit" 
-              className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3"
+              className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 transition-colors"
             >
               Start Making a Difference
             </Button>
+            
+            <div className="flex justify-center">
+              <Button 
+                type="button" 
+                variant="outline"
+                className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                onClick={() => navigate('/dashboard')}
+              >
+                Back to Dashboard
+              </Button>
+            </div>
           </form>
         </div>
       </section>
       
-      <Footer />
+      <Footer onSubscribe={handleSubscribe} />
     </div>
   );
 };

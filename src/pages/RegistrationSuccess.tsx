@@ -1,12 +1,56 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
 
+interface VolunteerData {
+  fullName: string;
+  email: string;
+  skills: string;
+  availability: string;
+}
+
 const RegistrationSuccess = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState<VolunteerData | null>(null);
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('volunteerData');
+    if (storedData) {
+      setUserData(JSON.parse(storedData));
+    }
+  }, []);
+
+  // Map availability codes to readable text
+  const getAvailabilityText = (code: string) => {
+    const map: {[key: string]: string} = {
+      'weekday_mornings': 'Weekday Mornings',
+      'weekday_afternoons': 'Weekday Afternoons',
+      'weekday_evenings': 'Weekday Evenings', 
+      'weekend_mornings': 'Weekend Mornings',
+      'weekend_afternoons': 'Weekend Afternoons',
+      'weekend_evenings': 'Weekend Evenings',
+      'flexible': 'Flexible Schedule'
+    };
+    return map[code] || code;
+  };
+
+  // Extract subject skills from the skills text
+  const getSkills = () => {
+    if (!userData?.skills) return [];
+    
+    // This is a simplified approach - in a real app, you'd use a more robust method
+    const commonSubjects = [
+      'Mathematics', 'Science', 'English', 'History', 
+      'Geography', 'Physics', 'Chemistry', 'Biology'
+    ];
+    
+    return commonSubjects.filter(subject => 
+      userData.skills.toLowerCase().includes(subject.toLowerCase())
+    );
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-purple-600 py-12 px-4">
@@ -17,7 +61,7 @@ const RegistrationSuccess = () => {
           </div>
           
           <h1 className="text-3xl font-bold text-yellow-500 mb-1">Welcome to GyanMarg!</h1>
-          <p className="text-purple-800 font-semibold mb-1">Sarah</p>
+          <p className="text-purple-800 font-semibold mb-1">{userData?.fullName || 'Volunteer'}</p>
           <p className="text-gray-700 mb-8">
             Your volunteer registration was successful
           </p>
@@ -64,27 +108,38 @@ const RegistrationSuccess = () => {
             <div className="space-y-4 text-left">
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Email:</h3>
-                <p className="text-gray-800">sarah@example.com</p>
+                <p className="text-gray-800">{userData?.email || 'email@example.com'}</p>
               </div>
               
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Subjects:</h3>
                 <div className="flex flex-wrap gap-2 mt-1">
-                  <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-200">Mathematics</Badge>
-                  <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">Science</Badge>
+                  {getSkills().length > 0 ? (
+                    getSkills().map((skill, index) => (
+                      <Badge key={index} className="bg-emerald-100 text-emerald-800 hover:bg-emerald-200">
+                        {skill}
+                      </Badge>
+                    ))
+                  ) : (
+                    <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">
+                      General Teaching
+                    </Badge>
+                  )}
                 </div>
               </div>
               
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Availability:</h3>
-                <p className="text-gray-800">Weekday Evenings</p>
+                <p className="text-gray-800">
+                  {userData ? getAvailabilityText(userData.availability) : 'Flexible Schedule'}
+                </p>
               </div>
             </div>
           </div>
           
           <div className="space-y-3">
             <Button 
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white" 
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white transition-colors" 
               onClick={() => navigate('/dashboard')}
             >
               Go to Dashboard
@@ -92,7 +147,7 @@ const RegistrationSuccess = () => {
             
             <Button 
               variant="outline" 
-              className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-50"
+              className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-colors"
               onClick={() => navigate('/')}
             >
               Return to Homepage

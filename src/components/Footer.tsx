@@ -2,8 +2,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onSubscribe: (e: React.FormEvent) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
   return (
     <footer className="bg-gyanmarg-purple text-white py-8 px-6">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -13,7 +18,6 @@ const Footer: React.FC = () => {
             <li><Link to="/about" className="hover:text-gyanmarg-gold transition">About Us</Link></li>
             <li><Link to="/donate" className="hover:text-gyanmarg-gold transition">Donate</Link></li>
             <li><Link to="/volunteer" className="hover:text-gyanmarg-gold transition">Become a Volunteer</Link></li>
-            <li><Link to="/privacy" className="hover:text-gyanmarg-gold transition">Privacy Policy</Link></li>
           </ul>
         </div>
         
@@ -34,16 +38,17 @@ const Footer: React.FC = () => {
         
         <div>
           <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-          <div className="flex">
+          <form onSubmit={onSubscribe} className="flex">
             <input 
               type="email" 
               placeholder="Your email" 
               className="px-4 py-2 rounded-l-full focus:outline-none text-black"
+              required
             />
-            <button className="bg-gyanmarg-gold text-gyanmarg-purple px-4 py-2 rounded-r-full hover:bg-opacity-90 transition">
+            <Button type="submit" className="bg-gyanmarg-gold text-gyanmarg-purple px-4 py-2 rounded-r-full hover:bg-yellow-300 transition">
               Subscribe
-            </button>
-          </div>
+            </Button>
+          </form>
         </div>
       </div>
       
