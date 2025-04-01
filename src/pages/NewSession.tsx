@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useToast } from "@/components/ui/use-toast";
-import { Calendar as CalendarIcon, Clock, Users } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Users, ArrowLeft } from 'lucide-react';
 
 const NewSession = () => {
   const [sessionTitle, setSessionTitle] = useState('');
@@ -26,6 +26,27 @@ const NewSession = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Create a new session object
+    const newSession = {
+      id: Date.now(),
+      subject: subject,
+      grade: grade,
+      time: `${date} at ${time}`,
+      icon: subject.toLowerCase(),
+      title: sessionTitle,
+      duration: duration,
+      description: description
+    };
+    
+    // Get existing sessions from localStorage or create empty array
+    const existingSessions = JSON.parse(localStorage.getItem('sessions') || '[]');
+    
+    // Add new session to the array
+    const updatedSessions = [...existingSessions, newSession];
+    
+    // Save to localStorage
+    localStorage.setItem('sessions', JSON.stringify(updatedSessions));
+    
     toast({
       title: "Session created!",
       description: `Your ${subject} session has been scheduled.`,
@@ -38,9 +59,18 @@ const NewSession = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar isAuthenticated username="Teacher" />
       
-      <div className="flex-grow py-8 px-4 bg-gray-50">
+      <div className="flex-grow py-8 px-4 bg-gradient-to-br from-blue-600 to-purple-700">
         <div className="container mx-auto max-w-3xl">
-          <h1 className="text-3xl font-bold mb-6 text-gyanmarg-purple">Create New Teaching Session</h1>
+          <Button
+            variant="outline"
+            className="mb-4 bg-white hover:bg-gray-100"
+            onClick={() => navigate('/dashboard')}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
+          </Button>
+          
+          <h1 className="text-3xl font-bold mb-6 text-white">Create New Teaching Session</h1>
           
           <Card>
             <CardHeader>
@@ -67,12 +97,12 @@ const NewSession = () => {
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="mathematics">Mathematics</SelectItem>
-                        <SelectItem value="science">Science</SelectItem>
-                        <SelectItem value="english">English</SelectItem>
-                        <SelectItem value="history">History</SelectItem>
-                        <SelectItem value="geography">Geography</SelectItem>
-                        <SelectItem value="computer-science">Computer Science</SelectItem>
+                        <SelectItem value="Mathematics">Mathematics</SelectItem>
+                        <SelectItem value="Science">Science</SelectItem>
+                        <SelectItem value="English">English</SelectItem>
+                        <SelectItem value="History">History</SelectItem>
+                        <SelectItem value="Geography">Geography</SelectItem>
+                        <SelectItem value="ComputerScience">Computer Science</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -84,7 +114,7 @@ const NewSession = () => {
                         <SelectValue placeholder="Select a grade" />
                       </SelectTrigger>
                       <SelectContent>
-                        {[...Array(12)].map((_, i) => (
+                        {[...Array(10)].map((_, i) => (
                           <SelectItem key={i} value={(i + 1).toString()}>
                             Grade {i + 1}
                           </SelectItem>
@@ -159,12 +189,13 @@ const NewSession = () => {
                     type="button" 
                     variant="outline"
                     onClick={() => navigate('/dashboard')}
+                    className="hover:bg-gray-100"
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="submit"
-                    className="bg-gyanmarg-purple"
+                    className="bg-gyanmarg-purple hover:bg-purple-800"
                   >
                     Create Session
                   </Button>

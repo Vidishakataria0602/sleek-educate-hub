@@ -20,6 +20,9 @@ interface Session {
   grade: string;
   time: string;
   icon: string;
+  title?: string;
+  duration?: string;
+  description?: string;
 }
 
 const Dashboard = () => {
@@ -38,9 +41,11 @@ const Dashboard = () => {
     
     setUser(JSON.parse(storedUser));
 
-    // This would be a fetch call in a real application
-    // For now, we'll leave it empty as per the requirement
-    setSessions([]);
+    // Get sessions from localStorage
+    const storedSessions = localStorage.getItem('sessions');
+    if (storedSessions) {
+      setSessions(JSON.parse(storedSessions));
+    }
   }, [navigate]);
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -66,7 +71,7 @@ const Dashboard = () => {
       <Navbar isAuthenticated username={user.username} />
       
       {/* Hero Section */}
-      <section className="hero-gradient text-white py-12 px-4">
+      <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-12 px-4">
         <div className="container mx-auto max-w-5xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gyanmarg-gold animate-fade-in">
             Welcome Back, {user.username}!
@@ -77,14 +82,14 @@ const Dashboard = () => {
           
           <div className="flex flex-col md:flex-row justify-center gap-4 animate-fade-in">
             <Button 
-              className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-300 text-lg py-6 px-8 transition-colors"
+              className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-500 text-lg py-6 px-8 transition-colors"
               onClick={() => navigate('/new-session')}
             >
               Resume Teaching
             </Button>
             <Button 
               variant="outline"
-              className="text-white border-white hover:bg-white/20 hover:border-yellow-300 text-lg py-6 px-8 transition-colors"
+              className="text-white border-white hover:bg-white/20 hover:text-yellow-300 text-lg py-6 px-8 transition-colors"
               onClick={handleViewSchedule}
             >
               View Schedule
@@ -103,7 +108,7 @@ const Dashboard = () => {
               <CardContent className="flex flex-col items-center p-6">
                 <Calendar className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
+                  className="bg-gyanmarg-purple hover:bg-purple-800 w-full transition-colors text-white"
                   onClick={() => navigate('/new-session')}
                 >
                   Create New Session
@@ -115,7 +120,7 @@ const Dashboard = () => {
               <CardContent className="flex flex-col items-center p-6">
                 <Award className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
+                  className="bg-gyanmarg-purple hover:bg-purple-800 w-full transition-colors text-white"
                   onClick={() => navigate('/achievements')}
                 >
                   View Achievements
@@ -127,7 +132,7 @@ const Dashboard = () => {
               <CardContent className="flex flex-col items-center p-6">
                 <Users className="h-12 w-12 text-gyanmarg-purple mb-4" />
                 <Button 
-                  className="bg-gyanmarg-purple hover:bg-purple-700 w-full transition-colors"
+                  className="bg-gyanmarg-purple hover:bg-purple-800 w-full transition-colors text-white"
                   onClick={() => navigate('/students')}
                 >
                   Student Profiles
@@ -194,11 +199,18 @@ const Dashboard = () => {
                 <Card key={session.id} className="border border-gray-200 hover:shadow-lg transition">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <div className={`w-10 h-10 rounded-full bg-${session.icon}-card flex items-center justify-center mr-4`}>
+                      <div className={`w-10 h-10 rounded-full ${
+                        session.subject === "Mathematics" ? "bg-blue-100" :
+                        session.subject === "Science" ? "bg-green-100" :
+                        session.subject === "English" ? "bg-yellow-100" :
+                        session.subject === "History" ? "bg-red-100" :
+                        session.subject === "Geography" ? "bg-purple-100" :
+                        "bg-gray-100"
+                      } flex items-center justify-center mr-4`}>
                         <span className="font-bold text-gyanmarg-purple">{session.subject[0]}</span>
                       </div>
                       <div>
-                        <h3 className="font-bold">{session.subject}</h3>
+                        <h3 className="font-bold">{session.title || session.subject}</h3>
                         <p className="text-sm text-gray-600">Grade {session.grade}</p>
                       </div>
                     </div>
@@ -209,7 +221,7 @@ const Dashboard = () => {
                     </div>
                     
                     <Button 
-                      className="w-full bg-gyanmarg-purple hover:bg-purple-700 transition-colors"
+                      className="w-full bg-gyanmarg-purple hover:bg-purple-800 transition-colors text-white"
                       onClick={() => navigate(`/session/${session.id}`)}
                     >
                       Join Session
@@ -224,7 +236,7 @@ const Dashboard = () => {
               <h3 className="text-xl font-semibold mb-2">No Upcoming Sessions</h3>
               <p className="text-gray-600 mb-6">You haven't created any teaching sessions yet.</p>
               <Button 
-                className="bg-gyanmarg-purple hover:bg-purple-700 transition-colors"
+                className="bg-gyanmarg-purple hover:bg-purple-800 transition-colors text-white"
                 onClick={() => navigate('/new-session')}
               >
                 Create Your First Session

@@ -1,200 +1,233 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Calculator, BookOpen, FileText, History, Globe, Laptop, Download } from 'lucide-react';
+import { 
+  BookOpenCheck, 
+  ArrowLeft, 
+  BookOpen, 
+  Download, 
+  Home, 
+  Sparkles, 
+  Calculator, 
+  Globe, 
+  TestTube,
+  Languages
+} from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+
+interface Book {
+  id: number;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+interface SubjectInfo {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  books: Book[];
+}
 
 const SubjectSelection = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Get the board type and class from location state
-  const boardType = location.state?.board || 'CBSE';
-  const classNumber = location.state?.class || 8;
+  const { toast } = useToast();
+  const { board, grade } = location.state || { board: 'CBSE', grade: '8' };
+
+  const subjects: SubjectInfo[] = [
+    {
+      id: 'mathematics',
+      name: 'Mathematics',
+      icon: <Calculator className="h-10 w-10 text-blue-500" />,
+      books: [
+        {
+          id: 1,
+          title: `${board} Mathematics ${grade}`,
+          description: `Complete mathematics textbook for grade ${grade} students with exercises and solutions.`,
+          icon: <Calculator className="h-6 w-6" />
+        },
+        {
+          id: 2,
+          title: 'Mathematics Practice Book',
+          description: 'Additional practice problems and worksheets to reinforce mathematical concepts.',
+          icon: <BookOpenCheck className="h-6 w-6" />
+        }
+      ]
+    },
+    {
+      id: 'science',
+      name: 'Science',
+      icon: <TestTube className="h-10 w-10 text-green-500" />,
+      books: [
+        {
+          id: 3,
+          title: `${board} Science ${grade}`,
+          description: `General science textbook covering physics, chemistry and biology for grade ${grade} students.`,
+          icon: <TestTube className="h-6 w-6" />
+        },
+        {
+          id: 4,
+          title: 'Science Lab Manual',
+          description: 'Step-by-step instructions for science experiments and activities.',
+          icon: <TestTube className="h-6 w-6" />
+        }
+      ]
+    },
+    {
+      id: 'english',
+      name: 'English',
+      icon: <Languages className="h-10 w-10 text-yellow-500" />,
+      books: [
+        {
+          id: 5,
+          title: `${board} English Reader ${grade}`,
+          description: `English literature and language textbook for grade ${grade} students.`,
+          icon: <BookOpen className="h-6 w-6" />
+        },
+        {
+          id: 6,
+          title: 'English Grammar',
+          description: 'Comprehensive guide to English grammar rules with examples and exercises.',
+          icon: <BookOpenCheck className="h-6 w-6" />
+        }
+      ]
+    },
+    {
+      id: 'social-studies',
+      name: 'Social Studies',
+      icon: <Globe className="h-10 w-10 text-orange-500" />,
+      books: [
+        {
+          id: 7,
+          title: `${board} History ${grade}`,
+          description: `History textbook covering major events and civilizations for grade ${grade} students.`,
+          icon: <Globe className="h-6 w-6" />
+        },
+        {
+          id: 8,
+          title: `${board} Geography ${grade}`,
+          description: `Geography textbook with maps and geographic concepts for grade ${grade} students.`,
+          icon: <Globe className="h-6 w-6" />
+        }
+      ]
+    }
+  ];
+
+  const handleReadOnline = (book: Book) => {
+    toast({
+      title: "Opening Online Reader",
+      description: `${book.title} is opening in our online reader.`,
+    });
+    // In a real app, this would navigate to an online reader page
+    // For demo purposes, just show a toast
+  };
+
+  const handleDownload = (book: Book) => {
+    toast({
+      title: "Download Started",
+      description: `${book.title} is being downloaded to your device.`,
+    });
+    // In a real app, this would trigger a file download
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isAuthenticated={true} username="Sarah" />
+      <Navbar isAuthenticated={true} username="User" />
       
-      <div className="flex-grow bg-purple-50 py-8">
-        <div className="container mx-auto max-w-4xl px-4">
-          <div className="bg-white rounded-lg shadow-xl p-6 md:p-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-center text-purple-700 mb-2">
-              Available Books for {boardType}, Standard {classNumber}th
+      <div className="flex-grow py-8 px-4 bg-gradient-to-br from-blue-600 to-purple-700">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex items-center justify-between mb-8">
+            <Button
+              variant="outline"
+              className="bg-white hover:bg-gray-100"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back
+            </Button>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">
+              Available Resources for Grade {grade}
             </h1>
-            <p className="text-center text-gray-600 mb-6">
-              Access and download your curriculum materials
-            </p>
-            
-            {/* Search Bar */}
-            <div className="mb-8">
-              <Input 
-                placeholder="Search by title, author, or subject..." 
-                className="bg-emerald-50 border-emerald-200 focus:border-emerald-300"
-              />
-            </div>
-            
-            {/* Books List */}
-            <div className="space-y-4">
-              {/* Mathematics Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <Calculator className="h-8 w-8 text-purple-700" />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {subjects.map((subject) => (
+              <div key={subject.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-gray-200">
+                  <div className="flex items-center">
+                    <div className="bg-white p-3 rounded-full shadow-md mr-4">
+                      {subject.icon}
+                    </div>
+                    <h2 className="text-xl font-bold text-gyanmarg-purple">{subject.name}</h2>
                   </div>
                 </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">Mathematics Fundamentals</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Sarah Johnson</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">Mathematics</span>
-                  </div>
+                
+                <div className="p-4 space-y-4">
+                  {subject.books.map((book) => (
+                    <div key={book.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                      <div className="flex items-start">
+                        <div className="bg-gray-100 p-2 rounded-lg mr-3">
+                          {book.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-gray-800 mb-1">{book.title}</h3>
+                          <p className="text-sm text-gray-600 mb-3">{book.description}</p>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            <HoverCard>
+                              <HoverCardTrigger asChild>
+                                <Button 
+                                  size="sm" 
+                                  onClick={() => handleReadOnline(book)}
+                                  className="bg-blue-600 hover:bg-blue-700"
+                                >
+                                  <BookOpen className="mr-1 h-4 w-4" /> Read Online
+                                </Button>
+                              </HoverCardTrigger>
+                              <HoverCardContent className="w-80">
+                                <div className="flex justify-between space-x-4">
+                                  <div>
+                                    <h4 className="text-sm font-semibold">Online Reader</h4>
+                                    <p className="text-sm text-gray-600">
+                                      Our interactive reader lets you access materials without downloading.
+                                      Take notes, highlight text, and track your progress.
+                                    </p>
+                                  </div>
+                                  <Sparkles className="h-10 w-10 text-blue-500" />
+                                </div>
+                              </HoverCardContent>
+                            </HoverCard>
+
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleDownload(book)}
+                              className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                            >
+                              <Download className="mr-1 h-4 w-4" /> Download
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">210 pages</span>
-                  <span className="text-xs text-gray-500">12.5 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
               </div>
-              
-              {/* Science Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <BookOpen className="h-8 w-8 text-purple-700" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">Science - A Comprehensive Guide</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Prof. Michael Chen</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">Science</span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">350 pages</span>
-                  <span className="text-xs text-gray-500">15.2 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
-              </div>
-              
-              {/* English Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <FileText className="h-8 w-8 text-purple-700" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">English Literature & Grammar</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Dr. Emily Williams</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">English</span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">250 pages</span>
-                  <span className="text-xs text-gray-500">10.8 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
-              </div>
-              
-              {/* History Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <History className="h-8 w-8 text-purple-700" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">History Through Ages</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Prof. Robert Brown</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">Social Studies</span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">290 pages</span>
-                  <span className="text-xs text-gray-500">14.2 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
-              </div>
-              
-              {/* Geography Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <Globe className="h-8 w-8 text-purple-700" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">Geography - Our World</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Dr. Lisa Anderson</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">Social Studies</span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">245 pages</span>
-                  <span className="text-xs text-gray-500">17.8 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
-              </div>
-              
-              {/* Computer Science Book */}
-              <div className="flex items-center border border-gray-100 rounded-lg p-4 hover:bg-purple-50 transition">
-                <div className="flex-shrink-0 mr-4">
-                  <div className="bg-purple-100 p-3 rounded-lg">
-                    <Laptop className="h-8 w-8 text-purple-700" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-purple-800">Computer Science Basics</h3>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By: Prof. David Miller</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-purple-700">Computer Science</span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end mr-4">
-                  <span className="text-xs text-gray-500">180 pages</span>
-                  <span className="text-xs text-gray-500">25 MB</span>
-                </div>
-                <Button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600">
-                  <Download className="h-4 w-4 mr-1" /> Download Now
-                </Button>
-              </div>
-            </div>
-            
-            <div className="mt-8 flex justify-between items-center">
-              <Button
-                variant="outline"
-                className="px-6 text-emerald-600 border-emerald-300"
-                onClick={() => navigate('/class-selection')}
-              >
-                Back to Class Selection
-              </Button>
-              
-              <span className="text-sm text-gray-500">6 books available</span>
-            </div>
+            ))}
+          </div>
+          
+          <div className="mt-12 flex justify-center">
+            <Button 
+              className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-500 px-6 py-2 text-lg"
+              onClick={() => navigate('/dashboard')}
+            >
+              <Home className="mr-2 h-5 w-5" /> Back to Dashboard
+            </Button>
           </div>
         </div>
       </div>

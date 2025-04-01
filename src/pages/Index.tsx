@@ -24,8 +24,8 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="hero-gradient text-white py-16 px-4">
-        <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center">
+      <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-16 px-4">
+        <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gyanmarg-gold">
               Empower Young Minds with GyanMarg
@@ -35,14 +35,14 @@ const Index = () => {
             </p>
             <div className="flex space-x-4">
               <Button 
-                className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
+                className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-400 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
               </Button>
               <Button 
                 variant="outline" 
-                className="text-white border-white hover:bg-white/20 hover:border-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
+                className="text-white border-white hover:bg-white/20 hover:text-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
                 onClick={() => navigate('/about')}
               >
                 Learn More
@@ -51,8 +51,8 @@ const Index = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&h=450" 
-              alt="Education Hero"
+              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&h=450" 
+              alt="Students Learning"
               className="rounded-lg shadow-xl animate-fade-in"
             />
           </div>
@@ -74,6 +74,11 @@ const Index = () => {
               <p className="text-center text-gray-700">
                 Share your knowledge and make a difference in students' lives
               </p>
+              <img 
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=300&h=200" 
+                alt="Volunteer Teaching"
+                className="rounded-lg mt-4 mx-auto"
+              />
             </div>
             
             {/* Card 2 */}
@@ -85,6 +90,11 @@ const Index = () => {
               <p className="text-center text-gray-700">
                 Support our mission and empower education with resources
               </p>
+              <img 
+                src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=300&h=200" 
+                alt="Supporting Education"
+                className="rounded-lg mt-4 mx-auto"
+              />
             </div>
             
             {/* Card 3 */}
@@ -96,6 +106,11 @@ const Index = () => {
               <p className="text-center text-gray-700">
                 Utilize our comprehensive educational resources anytime
               </p>
+              <img 
+                src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=300&h=200" 
+                alt="Study Resources"
+                className="rounded-lg mt-4 mx-auto"
+              />
             </div>
           </div>
         </div>
@@ -107,23 +122,23 @@ const Index = () => {
           <h2 className="text-3xl font-bold text-center mb-12 text-gyanmarg-purple">Our Impact</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">100+</h3>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">500+</h3>
               <p className="text-gray-600">Volunteers</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">500+</h3>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">10,000+</h3>
               <p className="text-gray-600">Students</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">1000+</h3>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">50,000+</h3>
               <p className="text-gray-600">Hours Taught</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">50+</h3>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">100+</h3>
               <p className="text-gray-600">Partner Schools</p>
             </div>
           </div>

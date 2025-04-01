@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Save, Edit, Check, User } from 'lucide-react';
+import { ArrowLeft, Save, Edit, Check, User, AlertTriangle } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
 import { 
   Card, 
@@ -17,6 +17,18 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import ChangePasswordDialog from "@/components/ChangePasswordDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -24,16 +36,34 @@ const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   
   const [profile, setProfile] = useState({
-    name: 'Sarah Johnson',
-    email: 'sarah@example.com',
-    phone: '+1 (555) 123-4567',
-    location: 'New York, USA',
-    occupation: 'High School Teacher',
-    bio: 'Passionate about making education accessible to all. I specialize in Mathematics and Science for middle and high school students.',
+    name: '',
+    email: '',
+    phone: '',
+    location: '',
+    occupation: '',
+    bio: '',
     subjects: ['Mathematics', 'Science', 'English'],
     availability: 'Weekday evenings, Weekend afternoons',
-    experience: '5+ years of teaching experience'
+    experience: ''
   });
+  
+  useEffect(() => {
+    // Load user data from sessionStorage
+    const storedUser = sessionStorage.getItem('user');
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      setProfile(prev => ({
+        ...prev,
+        name: userData.username || userData.fullName || 'User',
+        email: userData.email || 'user@example.com',
+        phone: userData.phone || '+1 (555) 123-4567',
+        location: userData.location || 'Mumbai, India',
+        occupation: userData.occupation || 'Teacher',
+        bio: userData.bio || 'Passionate about making education accessible to all. I specialize in Mathematics and Science for middle and high school students.',
+        experience: userData.experience || '2+ years of teaching experience'
+      }));
+    }
+  }, []);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -42,6 +72,24 @@ const UserProfile = () => {
   
   const handleSave = () => {
     setIsEditing(false);
+    
+    // Save updated user profile to sessionStorage
+    const storedUser = sessionStorage.getItem('user');
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      const updatedUser = {
+        ...userData,
+        username: profile.name,
+        email: profile.email,
+        phone: profile.phone,
+        location: profile.location,
+        occupation: profile.occupation,
+        bio: profile.bio,
+        experience: profile.experience
+      };
+      sessionStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+    
     toast({
       title: "Profile updated",
       description: "Your profile has been updated successfully.",
@@ -66,7 +114,7 @@ const UserProfile = () => {
           {/* Profile Sidebar */}
           <div className="md:col-span-1">
             <Card className="shadow-md">
-              <CardHeader className="text-center bg-purple-600 rounded-t-lg">
+              <CardHeader className="text-center bg-gradient-to-br from-blue-600 to-purple-700 rounded-t-lg">
                 <div className="mx-auto bg-white rounded-full w-24 h-24 flex items-center justify-center mb-2">
                   <User className="h-12 w-12 text-purple-600" />
                 </div>
@@ -112,7 +160,7 @@ const UserProfile = () => {
               <CardFooter>
                 <Button 
                   onClick={() => setIsEditing(!isEditing)}
-                  className="w-full bg-purple-700 hover:bg-purple-800"
+                  className="w-full bg-purple-700 hover:bg-purple-800 text-white"
                 >
                   {isEditing ? (
                     <>
@@ -272,7 +320,7 @@ const UserProfile = () => {
                     <div className="pt-4 border-t border-gray-200">
                       <h3 className="text-lg font-semibold text-purple-800 mb-2">Upcoming Sessions</h3>
                       <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-                        <p className="text-yellow-800">You have a scheduled session tomorrow at 2:00 PM with 8th grade students.</p>
+                        <p className="text-yellow-800">Check your scheduled sessions on the dashboard.</p>
                         <Button variant="link" className="text-purple-700 p-0 mt-1" onClick={() => navigate('/dashboard')}>
                           View your schedule
                         </Button>
@@ -282,12 +330,43 @@ const UserProfile = () => {
                     <div className="pt-4 border-t border-gray-200">
                       <h3 className="text-lg font-semibold text-purple-800 mb-2">Account Settings</h3>
                       <div className="space-x-3">
-                        <Button variant="outline" className="border-purple-300 text-purple-700">
-                          Change Password
-                        </Button>
-                        <Button variant="outline" className="border-red-300 text-red-600">
-                          Delete Account
-                        </Button>
+                        <ChangePasswordDialog />
+                        
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50">
+                              Delete Account
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle className="flex items-center">
+                                <AlertTriangle className="h-5 w-5 mr-2 text-red-500" />
+                                Delete Account
+                              </AlertDialogTitle>
+                              <AlertDialogDescription className="text-gray-700">
+                                This action cannot be undone. This will permanently delete your account and remove all your data from our servers.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction 
+                                className="bg-red-600 hover:bg-red-700 text-white"
+                                onClick={() => {
+                                  // Clear user data from session storage and redirect to home
+                                  sessionStorage.removeItem('user');
+                                  navigate('/');
+                                  toast({
+                                    title: "Account deleted",
+                                    description: "Your account has been successfully deleted.",
+                                  });
+                                }}
+                              >
+                                Delete Account
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </div>
                   </div>
@@ -298,7 +377,7 @@ const UserProfile = () => {
                   <div className="w-full flex justify-end">
                     <Button 
                       onClick={handleSave}
-                      className="bg-purple-700 hover:bg-purple-800"
+                      className="bg-purple-700 hover:bg-purple-800 text-white"
                     >
                       <Save className="mr-2 h-4 w-4" /> Save Changes
                     </Button>

@@ -3,12 +3,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FooterProps {
-  onSubscribe: (e: React.FormEvent) => void;
+  onSubscribe?: (e: React.FormEvent) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
+  const { toast } = useToast();
+  
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Thank you for subscribing!",
+      description: "You'll receive our newsletter updates soon.",
+    });
+    
+    if (onSubscribe) {
+      onSubscribe(e);
+    }
+  };
+
   return (
     <footer className="bg-gyanmarg-purple text-white py-8 px-6">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -38,14 +53,14 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
         
         <div>
           <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-          <form onSubmit={onSubscribe} className="flex">
+          <form onSubmit={handleSubscribe} className="flex">
             <input 
               type="email" 
               placeholder="Your email" 
               className="px-4 py-2 rounded-l-full focus:outline-none text-black"
               required
             />
-            <Button type="submit" className="bg-gyanmarg-gold text-gyanmarg-purple px-4 py-2 rounded-r-full hover:bg-yellow-300 transition">
+            <Button type="submit" className="bg-gyanmarg-gold hover:bg-yellow-400 text-gyanmarg-purple px-4 py-2 rounded-r-full transition">
               Subscribe
             </Button>
           </form>

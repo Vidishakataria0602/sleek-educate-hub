@@ -12,14 +12,6 @@ const Resources = () => {
   const { toast } = useToast();
   const [selectedBoard, setSelectedBoard] = useState<string | null>(null);
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Thank you for subscribing!",
-      description: "You'll receive our newsletter updates soon.",
-    });
-  };
-
   const handleBoardSelect = (board: string) => {
     setSelectedBoard(board);
   };
@@ -40,7 +32,7 @@ const Resources = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar isAuthenticated={true} username="User" />
       
-      <div className="flex-grow flex items-center justify-center bg-purple-600 p-6">
+      <div className="flex-grow flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 p-6">
         <div className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-8">
             <h1 className="text-2xl font-bold text-center text-yellow-500 mb-6">
@@ -56,9 +48,9 @@ const Resources = () => {
                 onClick={() => handleBoardSelect('CBSE')}
                 className={`${
                   selectedBoard === 'CBSE' 
-                    ? 'ring-4 ring-orange-300' 
-                    : ''
-                } bg-orange-500 text-white rounded-lg p-6 hover:bg-orange-600 transition flex flex-col items-center`}
+                    ? 'ring-4 ring-orange-300 bg-orange-600' 
+                    : 'bg-orange-500 hover:bg-orange-600'
+                } text-white rounded-lg p-6 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
                   <GraduationCap className="h-8 w-8 text-orange-500" />
@@ -72,9 +64,9 @@ const Resources = () => {
                 onClick={() => handleBoardSelect('Maharashtra')}
                 className={`${
                   selectedBoard === 'Maharashtra' 
-                    ? 'ring-4 ring-yellow-300' 
-                    : ''
-                } bg-yellow-400 text-purple-900 rounded-lg p-6 hover:bg-yellow-500 transition flex flex-col items-center`}
+                    ? 'ring-4 ring-yellow-300 bg-yellow-500' 
+                    : 'bg-yellow-400 hover:bg-yellow-500'
+                } text-purple-900 rounded-lg p-6 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
                   <BookOpen className="h-8 w-8 text-yellow-500" />
@@ -89,8 +81,8 @@ const Resources = () => {
                 variant="outline"
                 className="px-6 text-purple-700 border-purple-300 hover:bg-purple-50"
                 onClick={() => navigate('/dashboard')}
-                startIcon={<ArrowLeft className="mr-2 h-4 w-4" />}
               >
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Back
               </Button>
               <Button
@@ -105,7 +97,7 @@ const Resources = () => {
         </div>
       </div>
       
-      <Footer onSubscribe={handleSubscribe} />
+      <Footer />
     </div>
   );
 };
