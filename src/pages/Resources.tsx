@@ -32,10 +32,10 @@ const Resources = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar isAuthenticated={true} username="User" />
       
-      <div className="flex-grow flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 p-6">
+      <div className="flex-grow flex items-center justify-center blue-purple-gradient p-6">
         <div className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-8">
-            <h1 className="text-2xl font-bold text-center text-yellow-500 mb-6">
+            <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
               Select Your Educational Board
             </h1>
             <p className="text-center text-gray-600 mb-8">
@@ -48,15 +48,15 @@ const Resources = () => {
                 onClick={() => handleBoardSelect('CBSE')}
                 className={`${
                   selectedBoard === 'CBSE' 
-                    ? 'ring-4 ring-orange-300 bg-orange-600' 
-                    : 'bg-orange-500 hover:bg-orange-600'
+                    ? 'ring-4 ring-indigo-300 bg-indigo-600' 
+                    : 'bg-indigo-500 hover:bg-indigo-600'
                 } text-white rounded-lg p-6 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
-                  <GraduationCap className="h-8 w-8 text-orange-500" />
+                  <GraduationCap className="h-8 w-8 text-indigo-500" />
                 </div>
                 <h3 className="font-bold text-lg mb-1">CBSE Board</h3>
-                <p className="text-sm text-orange-100 text-center">Central Board of Secondary Education</p>
+                <p className="text-sm text-indigo-100 text-center">Central Board of Secondary Education</p>
               </button>
               
               {/* State Board */}
@@ -64,29 +64,29 @@ const Resources = () => {
                 onClick={() => handleBoardSelect('Maharashtra')}
                 className={`${
                   selectedBoard === 'Maharashtra' 
-                    ? 'ring-4 ring-yellow-300 bg-yellow-500' 
-                    : 'bg-yellow-400 hover:bg-yellow-500'
-                } text-purple-900 rounded-lg p-6 transition flex flex-col items-center`}
+                    ? 'ring-4 ring-purple-300 bg-purple-600' 
+                    : 'bg-purple-500 hover:bg-purple-600'
+                } text-white rounded-lg p-6 transition flex flex-col items-center`}
               >
                 <div className="bg-white rounded-full p-3 mb-3">
-                  <BookOpen className="h-8 w-8 text-yellow-500" />
+                  <BookOpen className="h-8 w-8 text-purple-500" />
                 </div>
                 <h3 className="font-bold text-lg mb-1">State Board</h3>
-                <p className="text-sm text-purple-900 text-center">State Board of Secondary Education</p>
+                <p className="text-sm text-purple-100 text-center">State Board of Secondary Education</p>
               </button>
             </div>
 
             <div className="mt-8 flex justify-between">
               <Button
                 variant="outline"
-                className="px-6 text-purple-700 border-purple-300 hover:bg-purple-50"
+                className="px-6 text-purple-700 border-purple-300 hover:bg-purple-100 hover:text-purple-800"
                 onClick={() => navigate('/dashboard')}
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back
               </Button>
               <Button
-                className={`px-6 bg-purple-700 hover:bg-purple-800 transition-colors ${!selectedBoard ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`px-6 bg-indigo-600 hover:bg-indigo-700 text-white transition-colors ${!selectedBoard ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleNextClick}
                 disabled={!selectedBoard}
               >
