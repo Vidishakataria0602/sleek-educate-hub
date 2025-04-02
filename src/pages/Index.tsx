@@ -35,14 +35,14 @@ const Index = () => {
             </p>
             <div className="flex space-x-4">
               <Button 
-                className="bg-gyanmarg-gold text-gyanmarg-purple hover:bg-yellow-400 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
+                className="bg-gyanmarg-gold text-gyanmarg-purple px-8 py-6 rounded-full font-semibold text-lg"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
               </Button>
               <Button 
                 variant="outline" 
-                className="text-white border-white hover:bg-white/20 hover:text-yellow-300 px-8 py-6 rounded-full font-semibold text-lg transition-colors duration-300"
+                className="text-white border-white px-8 py-6 rounded-full font-semibold text-lg"
                 onClick={() => navigate('/about')}
               >
                 Learn More
