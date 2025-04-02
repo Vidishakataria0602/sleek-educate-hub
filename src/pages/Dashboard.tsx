@@ -89,7 +89,7 @@ const Dashboard = () => {
             </Button>
             <Button 
               variant="outline"
-              className="text-white border-white hover:bg-white/20 hover:text-yellow-300 text-lg py-6 px-8 transition-colors"
+              className="text-white border-white hover:bg-white/20 text-lg py-6 px-8 transition-colors"
               onClick={handleViewSchedule}
             >
               View Schedule

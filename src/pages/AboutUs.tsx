@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from "@/components/ui/button";
-import { Users, BookOpen, GraduationCap, Heart, Target, Award, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -15,14 +15,15 @@ const AboutUs = () => {
       
       {/* Hero Section */}
       <section className="py-16 px-4 bg-gradient-to-br from-blue-600 to-purple-700">
-        <div className="container mx-auto max-w-5xl text-center">
-          <Button
-            variant="outline"
-            className="mb-8 text-white border-white hover:bg-white/20"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
-          </Button>
+        <div className="container mx-auto max-w-5xl text-center relative">
+          <div className="absolute left-0 top-0">
+            <button 
+              className="flex items-center text-white" 
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="mr-1 h-5 w-5" /> Back
+            </button>
+          </div>
           
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             About GyanMarg
@@ -33,150 +34,71 @@ const AboutUs = () => {
         </div>
       </section>
       
-      {/* Our Story Section */}
+      {/* About Content Section */}
       <section className="py-16 px-4 bg-white">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl font-bold mb-8 text-purple-700 text-center">Our Story</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-lg mb-4 text-gray-700">
-                GyanMarg was founded in 2018 by a group of passionate educators who saw the increasing 
-                educational disparities among students across India. What began as a small initiative with 
-                just 5 volunteers in Mumbai has now grown into a nationwide movement with over 500 dedicated 
-                teachers and mentors.
-              </p>
-              <p className="text-lg mb-4 text-gray-700">
-                Our name, "GyanMarg" (meaning "Path of Knowledge" in Sanskrit), reflects our commitment to 
-                creating accessible educational pathways for every student, regardless of their background 
-                or financial circumstances.
-              </p>
-              <p className="text-lg text-gray-700">
-                Today, we work with schools, community centers, and online platforms to connect volunteer 
-                teachers with students who need additional academic support, creating a more equitable 
-                educational landscape for all.
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <img 
-                src="/lovable-uploads/b9adb92b-96cf-4756-b590-3bb4abe409fb.png" 
-                alt="Education Tree" 
-                className="rounded-lg shadow-xl max-w-md w-full"
-              />
-            </div>
+        <div className="container mx-auto max-w-5xl prose prose-lg">
+          <div className="mb-12">
+            <p className="text-lg text-gray-700">
+              At GyanMarg, we are on a mission to make <strong>quality education accessible</strong> to underprivileged students by bridging the gap between learners, volunteers, and donors through a structured, digital platform. Our goal is to empower students by providing them with the necessary resources and mentorship to thrive academically, regardless of their socio-economic background.
+            </p>
+            
+            <p className="text-lg text-gray-700 mt-4">
+              We recognize the challenges in the education sector—students lack access to learning materials, NGOs need dedicated volunteers, and individuals who want to help often struggle to find the right platform. GyanMarg addresses these issues by creating a <strong>seamless, transparent, and impactful ecosystem</strong> that connects all stakeholders in education.
+            </p>
           </div>
-        </div>
-      </section>
-      
-      {/* Mission & Vision Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-5xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-yellow-400 rounded-lg p-8 shadow-lg hover:shadow-xl transition">
-              <h2 className="text-2xl font-bold mb-4 text-purple-800">Our Mission</h2>
-              <p className="text-purple-900">
-                To bridge the educational gap by connecting passionate volunteers with students who need additional support, 
-                ensuring quality education is accessible to all regardless of socioeconomic status or geographic location.
-              </p>
-              
-              <div className="mt-8 flex justify-center">
-                <div className="bg-white p-3 rounded-full">
-                  <Target className="h-12 w-12 text-purple-700" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-purple-600 rounded-lg p-8 shadow-lg hover:shadow-xl transition">
-              <h2 className="text-2xl font-bold mb-4 text-white">Our Vision</h2>
-              <p className="text-white">
-                A world where every student has access to quality education and personalized support, 
-                empowering them to reach their full potential and create positive change in their communities.
-              </p>
-              
-              <div className="mt-8 flex justify-center">
-                <div className="bg-white p-3 rounded-full">
-                  <GraduationCap className="h-12 w-12 text-purple-700" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Values Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl font-bold text-center mb-12 text-purple-700">Our Core Values</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition border border-purple-100">
-              <div className="flex justify-center mb-4">
-                <div className="bg-purple-100 p-3 rounded-full">
-                  <Heart className="h-8 w-8 text-purple-700" />
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Compassion</h3>
-              <p className="text-gray-600 text-center">
-                We approach education with empathy and understanding, recognizing each student's unique journey.
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-6 text-purple-700">What We Offer</h2>
+            
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span><strong>For Students:</strong> Access free educational resources and mentorship from volunteer teachers.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span><strong>For Volunteers:</strong> Teach and mentor students, making a real impact on their education.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span><strong>For Donors:</strong> Contribute books, learning materials, or funds to support education initiatives.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span><strong>For NGOs & Community Centers:</strong> Partner with volunteers and donors to enhance learning opportunities.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span><strong>Seamless Collaboration:</strong> A digital platform that simplifies participation and contribution.</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-purple-50 p-8 rounded-lg shadow">
+              <h2 className="text-2xl font-bold mb-4 text-purple-700">Our Vision</h2>
+              <p className="text-gray-700">
+                To create an <strong>inclusive and equitable learning ecosystem</strong> where every student, regardless of background, has access to quality education and growth opportunities.
               </p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition border border-purple-100">
-              <div className="flex justify-center mb-4">
-                <div className="bg-purple-100 p-3 rounded-full">
-                  <Target className="h-8 w-8 text-purple-700" />
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Excellence</h3>
-              <p className="text-gray-600 text-center">
-                We strive for the highest standards in our teaching methods and educational resources.
-              </p>
-            </div>
-            
-            <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition border border-purple-100">
-              <div className="flex justify-center mb-4">
-                <div className="bg-purple-100 p-3 rounded-full">
-                  <Award className="h-8 w-8 text-purple-700" />
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Inclusivity</h3>
-              <p className="text-gray-600 text-center">
-                We believe in equal educational opportunities for all, regardless of background or circumstances.
+            <div className="bg-blue-50 p-8 rounded-lg shadow">
+              <h2 className="text-2xl font-bold mb-4 text-blue-700">Our Mission</h2>
+              <p className="text-gray-700">
+                To bridge educational disparities by connecting students, volunteers, and donors through a <strong>technology-driven</strong> platform that fosters learning, collaboration, and long-term impact.
               </p>
             </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Impact Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl font-bold text-center mb-8 text-purple-700">Our Impact</h2>
-          <p className="text-center text-lg mb-12 max-w-3xl mx-auto text-gray-700">
-            Since our inception, we've made significant strides in democratizing quality education
-            across India.
-          </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition border border-purple-100">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">500+</h3>
-              <p className="text-gray-600">Volunteer Teachers</p>
-            </div>
+          <div>
+            <h2 className="text-3xl font-bold mb-6 text-purple-700">Meet Our Team</h2>
+            <p className="text-lg text-gray-700">
+              GyanMarg was founded as a <strong>college field project</strong> by a team of passionate individuals dedicated to making a difference in education. <strong>Vidisha Kataria, Ishjyot Kaur, Bhoomi Chabaria, and Prachi Lund</strong> came together with the vision of leveraging technology to <strong>eliminate barriers to learning</strong> and create a <strong>sustainable impact</strong> on underprivileged communities.
+            </p>
             
-            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition border border-purple-100">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">10,000+</h3>
-              <p className="text-gray-600">Students Helped</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition border border-purple-100">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">50,000+</h3>
-              <p className="text-gray-600">Teaching Hours</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition border border-purple-100">
-              <h3 className="text-3xl font-bold text-gyanmarg-purple mb-2">100+</h3>
-              <p className="text-gray-600">Partner Schools</p>
-            </div>
+            <p className="text-lg text-gray-700 mt-4">
+              We are committed to growing GyanMarg into a leading platform for <strong>educational accessibility and volunteer-driven learning</strong>. Join us in making education a right, not a privilege! 🚀
+            </p>
           </div>
         </div>
       </section>

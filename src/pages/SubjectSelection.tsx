@@ -14,7 +14,11 @@ import {
   Calculator, 
   Globe, 
   TestTube,
-  Languages
+  Languages,
+  Pen,
+  FileText,
+  History,
+  Music
 } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
@@ -106,13 +110,51 @@ const SubjectSelection = () => {
           id: 7,
           title: `${board} History ${grade}`,
           description: `History textbook covering major events and civilizations for grade ${grade} students.`,
-          icon: <Globe className="h-6 w-6" />
+          icon: <History className="h-6 w-6" />
         },
         {
           id: 8,
           title: `${board} Geography ${grade}`,
           description: `Geography textbook with maps and geographic concepts for grade ${grade} students.`,
           icon: <Globe className="h-6 w-6" />
+        }
+      ]
+    },
+    {
+      id: 'hindi',
+      name: 'Hindi',
+      icon: <Languages className="h-10 w-10 text-red-500" />,
+      books: [
+        {
+          id: 9,
+          title: `${board} Hindi Reader ${grade}`,
+          description: `Hindi literature and language textbook for grade ${grade} students.`,
+          icon: <BookOpen className="h-6 w-6" />
+        },
+        {
+          id: 10,
+          title: 'Hindi Grammar',
+          description: 'Comprehensive guide to Hindi grammar rules with examples and exercises.',
+          icon: <Pen className="h-6 w-6" />
+        }
+      ]
+    },
+    {
+      id: 'arts',
+      name: 'Arts & Music',
+      icon: <Music className="h-10 w-10 text-purple-500" />,
+      books: [
+        {
+          id: 11,
+          title: `${board} Arts Education ${grade}`,
+          description: `Visual and performing arts textbook for grade ${grade} students.`,
+          icon: <FileText className="h-6 w-6" />
+        },
+        {
+          id: 12,
+          title: 'Music Appreciation',
+          description: 'Introduction to music theory and appreciation, suitable for all grades.',
+          icon: <Music className="h-6 w-6" />
         }
       ]
     }
@@ -124,7 +166,6 @@ const SubjectSelection = () => {
       description: `${book.title} is opening in our online reader.`,
     });
     // In a real app, this would navigate to an online reader page
-    // For demo purposes, just show a toast
   };
 
   const handleDownload = (book: Book) => {
@@ -157,8 +198,8 @@ const SubjectSelection = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {subjects.map((subject) => (
-              <div key={subject.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-gray-50 p-4 border-b border-gray-200">
+              <div key={subject.id} className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:translate-y-[-4px]">
+                <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 border-b border-gray-200">
                   <div className="flex items-center">
                     <div className="bg-white p-3 rounded-full shadow-md mr-4">
                       {subject.icon}
@@ -169,7 +210,7 @@ const SubjectSelection = () => {
                 
                 <div className="p-4 space-y-4">
                   {subject.books.map((book) => (
-                    <div key={book.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div key={book.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition bg-white">
                       <div className="flex items-start">
                         <div className="bg-gray-100 p-2 rounded-lg mr-3">
                           {book.icon}
@@ -184,7 +225,7 @@ const SubjectSelection = () => {
                                 <Button 
                                   size="sm" 
                                   onClick={() => handleReadOnline(book)}
-                                  className="bg-blue-600 hover:bg-blue-700"
+                                  className="bg-blue-600 hover:bg-blue-700 text-white"
                                 >
                                   <BookOpen className="mr-1 h-4 w-4" /> Read Online
                                 </Button>

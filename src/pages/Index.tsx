@@ -52,7 +52,7 @@ const Index = () => {
           <div className="md:w-1/2 flex justify-center">
             <img 
               src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&h=450" 
-              alt="Students Learning"
+              alt="Children Studying Together"
               className="rounded-lg shadow-xl animate-fade-in"
             />
           </div>
