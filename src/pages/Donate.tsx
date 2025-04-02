@@ -82,7 +82,7 @@ const Donate = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="py-16 px-4 bg-purple-600 text-white">
+      <section className="py-16 px-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white">
         <div className="container mx-auto max-w-3xl text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Every Contribution Counts
@@ -111,7 +111,7 @@ const Donate = () => {
             {/* Card 1 */}
             <div className="bg-orange-500 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <img src="/lovable-uploads/b9adb92b-96cf-4756-b590-3bb4abe409fb.png" alt="Donate Money" className="w-8 h-8" />
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/003/417/762/small_2x/line-icon-for-give-money-vector.jpg" alt="Donate Money" className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-white">Donate Money</h3>
               <p className="text-center text-white mb-4">

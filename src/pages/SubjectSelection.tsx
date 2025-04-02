@@ -178,7 +178,7 @@ const SubjectSelection = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isAuthenticated={true} username="User" />
+      <Navbar isAuthenticated={true} />
       
       <div className="flex-grow py-8 px-4 bg-gradient-to-br from-blue-600 to-purple-700">
         <div className="container mx-auto max-w-6xl">

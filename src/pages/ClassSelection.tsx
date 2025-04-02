@@ -31,7 +31,7 @@ const ClassSelection = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isAuthenticated={true} username="Sarah" />
+      <Navbar isAuthenticated={true}  />
       
       <div className="flex-grow flex items-center justify-center bg-purple-600 p-6">
         <div className="max-w-lg w-full bg-white rounded-lg shadow-xl overflow-hidden">
@@ -54,23 +54,33 @@ const ClassSelection = () => {
             
             {/* Class Selection Grid */}
             <div className="grid grid-cols-3 gap-6 mb-8">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((classNumber) => (
-                <button
-                  key={classNumber}
-                  onClick={() => handleClassSelect(classNumber)}
-                  className={`w-full aspect-square rounded-full flex flex-col items-center justify-center transition
-                    ${selectedClass === classNumber 
-                    ? 'bg-purple-700 text-white' 
-                    : 'bg-emerald-200 text-purple-900 hover:bg-emerald-300'}`}
-                >
-                  <div className="mb-1">
-                    <Eye className={`h-5 w-5 ${selectedClass === classNumber ? 'text-white' : 'text-purple-700'}`} />
-                  </div>
-                  <span className="font-bold">{classNumber}th</span>
-                  <span className="text-xs">Standard</span>
-                </button>
-              ))}
-            </div>
+  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((classNumber) => {
+    const getOrdinal = (num) => {
+      if (num === 1) return "1st";
+      if (num === 2) return "2nd";
+      if (num === 3) return "3rd";
+      return `${num}th`;
+    };
+
+    return (
+      <button
+        key={classNumber}
+        onClick={() => handleClassSelect(classNumber)}
+        className={`w-full aspect-square rounded-full flex flex-col items-center justify-center transition
+          ${selectedClass === classNumber 
+            ? 'bg-purple-700 text-white' 
+            : 'bg-emerald-200 text-purple-900 hover:bg-emerald-300'}`}
+      >
+        <div className="mb-1">
+          <Eye className={`h-5 w-5 ${selectedClass === classNumber ? 'text-white' : 'text-purple-700'}`} />
+        </div>
+        <span className="font-bold">{getOrdinal(classNumber)}</span>
+        <span className="text-xs">Standard</span>
+      </button>
+    );
+  })}
+</div>
+
 
             {/* Progress Bar */}
             <div className="w-full bg-gray-200 rounded-full h-2 mb-8">

@@ -30,7 +30,7 @@ const Resources = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isAuthenticated={true} username="User" />
+      <Navbar isAuthenticated={true} />
       
       <div className="flex-grow flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 p-6">
         <div className="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">

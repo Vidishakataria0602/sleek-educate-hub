@@ -24,7 +24,7 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-16 px-4">
+      <section className="py-16 px-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white">
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gyanmarg-gold">
@@ -35,14 +35,14 @@ const Index = () => {
             </p>
             <div className="flex space-x-4">
               <Button 
-                className="bg-gyanmarg-gold text-gyanmarg-purple px-8 py-6 rounded-full font-semibold text-lg"
+                className="bg-gyanmarg-gold text-gyanmarg-purple px-8 py-6 rounded-full font-semibold text-lg hover:bg-yellow-500 transition-colors"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
               </Button>
               <Button 
                 variant="outline" 
-                className="text-white border-white px-8 py-6 rounded-full font-semibold text-lg"
+                className="bg-gyanmarg-purple text-white px-8 py-6 rounded-full font-semibold text-lg hover:bg-purple-800 transition-colors"
                 onClick={() => navigate('/about')}
               >
                 Learn More
@@ -51,7 +51,7 @@ const Index = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&h=450" 
+              src="https://media.istockphoto.com/id/1148218795/photo/children-cheering-in-classroom.jpg?s=1024x1024&w=is&k=20&c=StKRJDD678wwrufC7eICXwBc9a5omU9lnmSaZA1wq-c=" 
               alt="Children Studying Together"
               className="rounded-lg shadow-xl animate-fade-in"
             />

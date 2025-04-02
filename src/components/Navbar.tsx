@@ -64,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
   return (
     <nav className="bg-gyanmarg-purple text-white py-3 px-6 flex justify-between items-center shadow-md">
       <div className="flex items-center space-x-2">
-        <img src="/placeholder.svg" alt="GyanMarg Logo" className="h-10 w-10 bg-white rounded-full" />
+        <img src="/Gyanmarg_logo.png" alt="GyanMarg Logo" className="h-10 w-10 bg-white rounded-full" />
         <Link to="/" className="text-xl font-bold">GyanMarg</Link>
       </div>
       
@@ -139,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated = false, username = '' 
         <div className="space-x-3">
           <Button 
             variant="outline" 
-            className="border-white text-white hover:bg-white/20 hover:text-white transition-colors"
+            className="bg-gyanmarg-purple text-white hover:bg-purple-800 transition-colors"
             onClick={() => navigate('/signin')}
           >
             Sign In

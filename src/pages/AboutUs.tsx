@@ -14,16 +14,9 @@ const AboutUs = () => {
       <Navbar isAuthenticated={true} username="User" />
       
       {/* Hero Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-blue-600 to-purple-700">
+      <section className="py-16 px-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white">
         <div className="container mx-auto max-w-5xl text-center relative">
-          <div className="absolute left-0 top-0">
-            <button 
-              className="flex items-center text-white" 
-              onClick={() => navigate(-1)}
-            >
-              <ArrowLeft className="mr-1 h-5 w-5" /> Back
-            </button>
-          </div>
+          
           
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             About GyanMarg
@@ -52,37 +45,37 @@ const AboutUs = () => {
             
             <ul className="space-y-3">
               <li className="flex items-start">
-                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span className="text-green-500 font-bold mr-2"></span>
                 <span><strong>For Students:</strong> Access free educational resources and mentorship from volunteer teachers.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span className="text-green-500 font-bold mr-2"></span>
                 <span><strong>For Volunteers:</strong> Teach and mentor students, making a real impact on their education.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span className="text-green-500 font-bold mr-2"></span>
                 <span><strong>For Donors:</strong> Contribute books, learning materials, or funds to support education initiatives.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span className="text-green-500 font-bold mr-2"></span>
                 <span><strong>For NGOs & Community Centers:</strong> Partner with volunteers and donors to enhance learning opportunities.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-green-500 font-bold mr-2">✅</span>
+                <span className="text-green-500 font-bold mr-2"></span>
                 <span><strong>Seamless Collaboration:</strong> A digital platform that simplifies participation and contribution.</span>
               </li>
             </ul>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-purple-50 p-8 rounded-lg shadow">
+            <div className="bg-purple-300 p-8 rounded-lg shadow">
               <h2 className="text-2xl font-bold mb-4 text-purple-700">Our Vision</h2>
               <p className="text-gray-700">
                 To create an <strong>inclusive and equitable learning ecosystem</strong> where every student, regardless of background, has access to quality education and growth opportunities.
               </p>
             </div>
             
-            <div className="bg-blue-50 p-8 rounded-lg shadow">
+            <div className="bg-blue-300 p-8 rounded-lg shadow">
               <h2 className="text-2xl font-bold mb-4 text-blue-700">Our Mission</h2>
               <p className="text-gray-700">
                 To bridge educational disparities by connecting students, volunteers, and donors through a <strong>technology-driven</strong> platform that fosters learning, collaboration, and long-term impact.
@@ -97,7 +90,7 @@ const AboutUs = () => {
             </p>
             
             <p className="text-lg text-gray-700 mt-4">
-              We are committed to growing GyanMarg into a leading platform for <strong>educational accessibility and volunteer-driven learning</strong>. Join us in making education a right, not a privilege! 🚀
+              We are committed to growing GyanMarg into a leading platform for <strong>educational accessibility and volunteer-driven learning</strong>. Join us in making education a right, not a privilege! 
             </p>
           </div>
         </div>

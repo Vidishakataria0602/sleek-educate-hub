@@ -83,7 +83,7 @@ const Volunteer = () => {
             {/* Card 1 */}
             <div className="bg-yellow-300 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <img src="/lovable-uploads/92a9aa46-66b2-461b-8cf9-89b3a4c6db65.png" alt="Impact" className="w-10 h-10" />
+                <img src="https://www.shutterstock.com/image-photo/impact-word-made-building-blocks-260nw-650985967.jpg" alt="Impact" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center">Make an Impact</h3>
               <p className="text-center text-gray-800">
@@ -94,7 +94,7 @@ const Volunteer = () => {
             {/* Card 2 */}
             <div className="bg-purple-500 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <img src="/lovable-uploads/20fa43b0-16f5-40df-b44d-70361180ac2e.png" alt="Skills" className="w-10 h-10" />
+                <img src="https://www.cypherlearning.com/hs-fs/hubfs/blog/business/posts/2022/11/MATRIX-blog-01_4%20Skills%20development%20activities%20for%20real-world%20knowledge%20building-HEADER.png?width=1036&height=500&name=MATRIX-blog-01_4%20Skills%20development%20activities%20for%20real-world%20knowledge%20building-HEADER.png" alt="Skills" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-white">Build Skills</h3>
               <p className="text-center text-white">
@@ -105,7 +105,7 @@ const Volunteer = () => {
             {/* Card 3 */}
             <div className="bg-purple-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition">
               <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <img src="/lovable-uploads/459b13d5-2085-4ad9-8b33-d5325759edd0.png" alt="Community" className="w-10 h-10" />
+                <img src="https://miro.medium.com/v2/resize:fit:1400/1*M-b093jQIpmapIIaxH7N7g.jpeg" alt="Community" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-center text-white">Join Community</h3>
               <p className="text-center text-white">

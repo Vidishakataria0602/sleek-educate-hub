@@ -71,7 +71,7 @@ const Dashboard = () => {
       <Navbar isAuthenticated username={user.username} />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-12 px-4">
+      <section className="py-16 px-4 bg-gradient-to-br from-purple-600 to-indigo-700 text-white">
         <div className="container mx-auto max-w-5xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gyanmarg-gold animate-fade-in">
             Welcome Back, {user.username}!
@@ -89,7 +89,7 @@ const Dashboard = () => {
             </Button>
             <Button 
               variant="outline"
-              className="text-white border-white hover:bg-white/20 text-lg py-6 px-8 transition-colors"
+              className="bg-gyanmarg-purple text-white hover:bg-purple-800 text-lg py-6 px-8 transition-colors"
               onClick={handleViewSchedule}
             >
               View Schedule
